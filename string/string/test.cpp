@@ -118,66 +118,22 @@ void TestString1(){//3种遍历
 
 void TestString2(){
 	string s("hello");
-	s.push_back(' ');   //在s后插入char类型
+	s.push_back(' ');   //在s后插入字符空格
 	s.append("world");  //在s后加字符串world
-	s += "hello";      //在s后加字符串hello
-	s += "cap";        //在s后加字符串cap
+	s += "hello";      //在s后追加字符串hello
+	s += "cap";        //在s后追加字符串cap
 	cout << s << endl;
 	cout << s.c_str() << endl;//用c语言的方式打印
 
-	size_t pos = s.find(' ');//find找到字符所在位置并返回
+	size_t pos = s.find(' ');//find找到字符空格所在位置并返回
 	cout << pos << endl;
-	string ret(s, pos, s.size()-pos);
-	//string ret = (s.substr(pos, s.size() - pos));//substr从pos开始截取n个字符串
+	string ret = s.substr(pos, s.size() - pos);//substr截取区间上的字符串并返回（左闭右开）
 	cout << ret << endl;
 
-	s.erase(0,pos+1);//空格也会删除
+	s.erase(0,pos+1);//左闭右开，+1后空格也会删除
 	cout <<s << endl;
 
-	//rfind
-	string s1("http://www.baidu.com.cpp");
-	//取出域名
-	size_t start = s1.find("://");
-	if (start == string::npos){
-		cout << "invalid url" << endl;
-		return;
-	}
-	start += 3;
-	size_t finsh = s1.find('/',start);
-
-	string s2 = s1.substr(start, finsh - start);
-	cout << s2 << endl;
-	//找文件后缀名
-	pos = s1.rfind('.');
-
-	s2 = s1.substr(pos,s1.size()-pos);
-	cout << s2 << endl;
-
-	//打印每个文件后缀名
-	string s3("world.cpp.zip.gz");
-	size_t first = s3.find('.');
-	/*while (first != string::npos){
-	
-		size_t second = s3.find('.',first + 1);
-		if (second != string::npos){
-			cout << s3.substr(first, second - first)<<endl;
-		}
-		else{
-			cout << s3.substr(first, s3.size() - first)<<endl;
-		}
-		first = second;
-
-	}*/
-	while (first != string::npos){
-
-		size_t second = s3.find('.', first + 1);
-		cout << s3.substr(first, second - first) << endl;	
-		
-		first = second;
-
-	}
 }
-
 
 
 
