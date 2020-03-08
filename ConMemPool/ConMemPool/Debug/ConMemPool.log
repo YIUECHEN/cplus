@@ -1,0 +1,36 @@
+﻿生成启动时间为 2020/3/8 20:25:01。
+     1>项目“E:\好好学习吧！\c++\ConMemPool\ConMemPool\ConMemPool.vcxproj”在节点 2 上(Build 个目标)。
+     1>ClCompile:
+         D:\Visual Studio 2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt CentralCache.cpp PageCache.cpp ThreadCache.cpp test.cpp
+         test.cpp
+     1>e:\好好学习吧！\c++\conmempool\conmempool\common.h(91): warning C4554: “>>”: 检查运算符优先级可能存在的错误；使用圆括号阐明优先级
+         CentralCache.cpp
+     1>e:\好好学习吧！\c++\conmempool\conmempool\common.h(91): warning C4554: “>>”: 检查运算符优先级可能存在的错误；使用圆括号阐明优先级
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(5): error C2511: “Span *CentralCache::GetOneSpan(size_t)”:“CentralCache”中没有找到重载的成员函数
+                 e:\好好学习吧！\c++\conmempool\conmempool\centralcache.h(5) : 参见“CentralCache”的声明
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(7): error C2597: 对非静态成员“CentralCache::_spanLists”的非法引用
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(7): error C3867: “CentralCache::_spanLists”:  函数调用缺少参数列表；请使用“&CentralCache::_spanLists”创建指向成员的指针
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(7): error C2109: 下标要求数组或指针类型
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(10): error C2039: “_freelist”: 不是“Span”的成员
+                 e:\好好学习吧！\c++\conmempool\conmempool\common.h(154) : 参见“Span”的声明
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(10): error C2228: “.Empty”的左边必须有类/结构/联合
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(19): error C2039: “NumMovePage”: 不是“SizeClass”的成员
+                 e:\好好学习吧！\c++\conmempool\conmempool\common.h(61) : 参见“SizeClass”的声明
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(19): error C3861: “NumMovePage”:  找不到标识符
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(20): error C2065: “pageCacheInst”: 未声明的标识符
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(20): error C2228: “.NewSpan”的左边必须有类/结构/联合
+                 类型是“unknown-type”
+     1>e:\好好学习吧！\c++\conmempool\conmempool\centralcache.cpp(25): error C2660: “CentralCache::GetOneSpan”: 函数不接受 1 个参数
+         正在生成代码...
+         正在编译...
+         ThreadCache.cpp
+     1>e:\好好学习吧！\c++\conmempool\conmempool\common.h(91): warning C4554: “>>”: 检查运算符优先级可能存在的错误；使用圆括号阐明优先级
+         PageCache.cpp
+     1>e:\好好学习吧！\c++\conmempool\conmempool\common.h(91): warning C4554: “>>”: 检查运算符优先级可能存在的错误；使用圆括号阐明优先级
+         正在生成代码...
+     1>e:\好好学习吧！\c++\conmempool\conmempool\common.h(82): warning C4715: “SizeClass::ListIndex”: 不是所有的控件路径都返回值
+     1>已完成生成项目“E:\好好学习吧！\c++\ConMemPool\ConMemPool\ConMemPool.vcxproj”(Build 个目标)的操作 - 失败。
+
+生成失败。
+
+已用时间 00:00:04.40
