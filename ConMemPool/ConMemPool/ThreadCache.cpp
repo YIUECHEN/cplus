@@ -17,8 +17,21 @@ void ThreadCache::Deallocte(void* ptr, size_t size){
 	freeList.Push(ptr);
 
 	//链表太长了就是释放回centralcache
+	//对象个数满足一定条件
+	size_t num = SizeClass::NumMoveSize(size);
+	if (freeList.Num() >= num){
+		
+		ListTooLong(freeList,num,size);
+	}
 
 } 
+
+void ThreadCache::ListTooLong(FreeList& freeList,size_t num,size_t size){
+	void* start = nullptr, *end = nullptr;
+	freeList.PopRange(start, end, num);
+	NextObj(end) = nullptr;
+	centralCacheInst.ReleaseListToSpans(start, size);
+}
 
 //独立测试thread cache
 //void* ThreadCache::FetchFromCentralCache(size_t index){
@@ -52,7 +65,7 @@ void* ThreadCache::FetchFromCentralCache(size_t size){
 	else{
 		size_t index = SizeClass::ListIndex(size);
 		FreeList& list = _freeLists[index];
-		list.PushRange(NextObj(start), end);
+		list.PushRange(NextObj(start), end, actualNum-1);
+		return start;
 	}
-	return nullptr;
-}
+} 

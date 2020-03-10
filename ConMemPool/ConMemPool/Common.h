@@ -2,10 +2,22 @@
 
 #include<iostream>
 #include<assert.h>
-using namespace std;
+#include<thread>
+#include<mutex>
+#include<map>
+
+#ifdef _WIN32
+#include <windows.h>
+#endif//WIIN32
+
+//using namespace std;
+using std::endl;
+using std::cout;
 
 const size_t MAX_SIZE = 64 * 1024;//64k
 const size_t NFREE_LIST = MAX_SIZE / 8;//***
+const size_t MAX_PAGES = 129;
+const size_t PAGE_SHIFT = 12; // 4k为页移位
 
 inline void*& NextObj(void* obj){
 	return *(void**)obj;
@@ -17,21 +29,24 @@ public:
 	void Push(void* obj){//头插，释放回来
 		NextObj(obj)=_freelist;
 		_freelist = obj;	
+		++_num;
 	}
 
-	void PushRange(void* head,void* tail){
+	void PushRange(void* head,void* tail,size_t num){
 		NextObj(tail) = _freelist;
 		_freelist = head;
+		_num += num;
 	}
 
 
 	void* Pop(){//头删，被取走
 		void* obj = _freelist;
 		_freelist = NextObj(obj);
+		--_num;
 		return obj;
 	}
 
-	size_t PopRange(void* start, void* end, size_t num){
+	size_t PopRange(void*& start, void*& end, size_t num){
 		size_t actualNum = 0;
 		void* prev = nullptr;
 		void* cur = _freelist;
@@ -43,7 +58,7 @@ public:
 		start = _freelist;
 		end = prev;
 		_freelist = cur;
-
+		_num -= actualNum;
 		return actualNum;
 	}
 
@@ -52,9 +67,18 @@ public:
 		return _freelist == nullptr;
 	
 	}
+
+	size_t Num(){
+		return _num;
+	}
+
+	void Clear(){
+		 _freelist = nullptr;
+		 _num = 0;
+	}
 private:
 	void* _freelist=nullptr;
-
+	size_t _num = 0;
 
 };
 
@@ -79,6 +103,7 @@ public:
 		else if (size <= 65536){
 			return _ListIndex(size - 8192, 10) + group_array[2] + group_array[1] + group_array[0];
 		}
+		return -1;
 	}
 
 	static size_t _ListIndex(size_t size, int align_shift){
@@ -88,21 +113,10 @@ public:
 		else{
 			return size / 8;
 		}*/
-		return (size + (1 << align_shift) - 1) >> align_shift - 1;
+		return ((size + (1 << align_shift) - 1) >> align_shift) - 1;
 	}
 
-	static size_t NumMoveSize(size_t size)
-	{
-		if (size == 0)
-			return 0;
-		int num =MAX_SIZE / size; 
-		if (num < 2)
-			num = 2;
-		if (num > 512)
-			num = 512;
-		return num;
-	}
-
+	
 	static inline size_t RoundUp(size_t size)
 	{
 		assert(size <= MAX_SIZE);
@@ -141,6 +155,29 @@ public:
 		return (size + align - 1)&(~(align - 1));
 	}
 
+	static size_t NumMoveSize(size_t size)
+	{
+		if (size == 0)
+			return 0;
+		int num = MAX_SIZE / size;
+		if (num < 2)
+			num = 2;
+		if (num > 512)
+			num = 512;
+		return num;
+	}
+
+
+	static size_t NumMovePage(size_t size){
+		size_t num = NumMoveSize(size);
+		size_t npage = num*size;
+		npage >>= 12;
+		if (npage == 0){
+			return 1;
+		}
+		return npage;
+	}
+
 };
 
 //span跨度 管理页为单位的内存对象，本质是方便做合并，解决内存碎片
@@ -153,12 +190,12 @@ typedef unsigned long long PAGE_ID
 #endif
 
 struct Span{
-	PAGE_ID _pageid;//页号(有2^52个页号)
-	int pagesize;//页的数量
+	PAGE_ID _pageid=0;//页号(有2^52个页号)
+	PAGE_ID pagesize = 0;//页的数量
 
 	FreeList _freeList;//对象的自由自由链表
-	int _usecount;//内存块对象使用计数
-	//size_t objsize;//对象大小
+	int _usecount=0;//内存块对象使用计数
+	size_t objsize=0;//自由链表对象大小
 	Span* _next;
 	Span* _prev;
 };
@@ -188,7 +225,7 @@ public:
 	}
 
 	void PushBack(Span* newspan){
-		Insert(_head->_prev, newspan);
+		Insert(_head, newspan);
 	}
 
 	void PopBack(){
@@ -210,10 +247,32 @@ public:
 		Span *next = pos->_next;
 		prev->_next = next;
 		next->_prev = prev;
+	}
 
+	bool Empty(){
+		return Begin() == End();
+	}
+
+	void Lock(){
+		_mtx.lock();
+	}
+	void UNnlock(){
+		_mtx.unlock();
 	}
 
 private:
 	Span* _head;
-
+	std::mutex _mtx;
 };
+inline static void* SystemAlloc(size_t numpage){
+#ifdef _WIN32
+	void* ptr = VirtualAlloc(0, numpage*(1 << PAGE_SHIFT),
+		MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+#else
+	// brk mmap等
+#endif
+	if (ptr == nullptr)
+		throw std::bad_alloc();
+
+	return ptr;
+}

@@ -11,7 +11,7 @@ public:
 	void ReleaseListToSpans(void* start, size_t size);
 
 	//从page cache获取一个span
-	Span* GetOneSpan(SpanList* List, size_t size);
+	Span* GetOneSpan(size_t size);
 
 private:
 	SpanList _spanLists[NFREE_LIST];

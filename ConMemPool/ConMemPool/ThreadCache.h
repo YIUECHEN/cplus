@@ -6,7 +6,7 @@ public:
 	void* Allocte(size_t size);//被申请
 	void Deallocte(void* ptr,size_t size);//释放换回来
 	void* FetchFromCentralCache(size_t index);//从centralcache取内存
-	//void* ReleaseToCentrealCache(size_t index);//释放回centralcache
+	void ListTooLong(FreeList& freeList, size_t num, size_t size); //自由链表中对象过长释放回centralcache
 
 private:
 
@@ -14,3 +14,4 @@ private:
 
 };
 
+_declspec(thread) static ThreadCache* tlsThreadCache = nullptr;
