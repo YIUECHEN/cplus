@@ -33,10 +33,17 @@ Span* CentralCache::GetOneSpan(size_t size){
 }
 
 size_t CentralCache::FetchRangeObj(void*& start, void*& end, size_t num, size_t size){
+	size_t index = SizeClass::ListIndex(size);
+	SpanList& spanlist = _spanLists[index];
+	spanlist.Lock();
+
 	Span* span = GetOneSpan(size);
 	FreeList& freelist = span->_freeList;
 	size_t actualNum = freelist.PopRange(start, end, num);
 	span->_usecount += actualNum;
+
+	spanlist.Unlock();
+
 
 	return actualNum;
 	
@@ -65,6 +72,6 @@ void CentralCache::ReleaseListToSpans(void* start, size_t size){
 		}
 		start = next;
 	}
-	
+	spanlist.Unlock();
 }
 

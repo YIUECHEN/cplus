@@ -106,7 +106,7 @@ public:
 		return -1;
 	}
 
-	static size_t _ListIndex(size_t size, int align_shift){
+	static size_t _ListIndex(size_t size, size_t align_shift){
 		/*if (size % 8 == 0){
 			return size / 8 - 1;
 		} 
@@ -143,7 +143,7 @@ public:
 	// [1025,8*1024] 128byte对齐 freelist[72,128)
 	// [8*1024+1,64*1024] 1024byte对齐 freelist[128,184)
 	//向上对齐
-	static size_t _RoundUp(size_t size, int align){
+	static size_t _RoundUp(size_t size, size_t align){
 		/*if (size % 8 != 0){
 			return (size / 8 + 1)*8;
 			}
@@ -256,7 +256,7 @@ public:
 	void Lock(){
 		_mtx.lock();
 	}
-	void UNnlock(){
+	void Unlock(){
 		_mtx.unlock();
 	}
 
@@ -275,4 +275,13 @@ inline static void* SystemAlloc(size_t numpage){
 		throw std::bad_alloc();
 
 	return ptr;
+}
+
+
+inline static void SystemFree(void* ptr)
+{
+#ifdef _WIN32
+	VirtualFree(ptr, 0, MEM_RELEASE);
+#else
+#endif
 }

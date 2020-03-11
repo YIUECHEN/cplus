@@ -14,4 +14,4 @@ private:
 
 };
 
-_declspec(thread) static ThreadCache* tlsThreadCache = nullptr;
+_declspec(thread) static ThreadCache* pThreadCache = nullptr;//_declspec (thread)表示属于每个线程独享的

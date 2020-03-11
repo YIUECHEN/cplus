@@ -76,10 +76,66 @@ void UnitThreadCache()
 }
 
 
+#include "ConcurrentMalloc.h"
+
+void func1(size_t n)
+{
+	std::vector<void*> v;
+	size_t size = 7;
+	for (size_t i = 0; i < SizeClass::NumMoveSize(size) + 1; ++i)
+	{
+		v.push_back(ConcurrentMalloc(size));
+	}
+
+	for (size_t i = 0; i < v.size(); ++i)
+	{
+		//printf("[%d]->%p\n", i, v[i]);
+	}
+
+	for (auto ptr : v)
+	{
+		ConcurrentFree(ptr);
+	}
+
+	v.clear();
+}
+
+void func2(size_t n)
+{
+	std::vector<void*> v;
+	size_t size = 7;
+	for (size_t i = 0; i < SizeClass::NumMoveSize(size) + 1; ++i)
+	{
+		v.push_back(ConcurrentMalloc(size));
+	}
+
+	for (size_t i = 0; i < v.size(); ++i)
+	{
+		//	printf("[%d]->%p\n", i, v[i]);
+	}
+
+	for (auto ptr : v)
+	{
+		ConcurrentFree(ptr);
+	}
+
+	v.clear();
+}
+
+
 int main(){
-	UnitThreadCache();
+	//UnitThreadCache();
 	//UnitTestSizeClass();
     //UnitTestSystemAlloc();
+
+
+	void* ptr1 = ConcurrentMalloc(1 << PAGE_SHIFT);
+	void* ptr2 = ConcurrentMalloc(65 << PAGE_SHIFT);
+	void* ptr3 = ConcurrentMalloc(129 << PAGE_SHIFT);
+
+	ConcurrentFree(ptr1);
+	ConcurrentFree(ptr2);
+	ConcurrentFree(ptr3);
 
 	system("pause");
 	return 0;
