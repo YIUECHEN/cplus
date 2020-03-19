@@ -1,7 +1,7 @@
 #include"BSTree.h"
 
 int main(){
-	int array[] = { 2, 5, 3, 4, 1, 7, 9, 6, 8, 0 };
+	int array[] = { 5, 3, 4, 1, 7, 8, 2, 6, 0, 9 };
 	BSTree<int> t;
 	for (auto e : array){
 		t.Insert(e);
@@ -11,8 +11,20 @@ int main(){
 	cout << t.RightMost()->_data << endl;
 	BSTNode<int>* pCur = t.Find(2);
 	if (pCur){
-		cout << pCur->_data << endl;
+		cout <<"´æÔÚ£¡" << endl;
 	}
+	else{
+		cout << "²»´æÔÚ£¡" << endl;
+
+	}
+	t.InOrder();
+
+
+	t.Delete(8);
+	t.Delete(1);
+	t.Delete(5);
+
+	t.InOrder();
 	system("pause");
 	return 0;
 }
