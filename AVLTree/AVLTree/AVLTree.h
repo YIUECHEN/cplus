@@ -82,7 +82,7 @@ public:
 					else
 						RotateLR(pParent);
 				}
-
+				break;
 			}
 		}
 		return true;
@@ -152,13 +152,33 @@ private:
 	}
 
 	void RotateRL(Node* pParent){
+		Node* pSubR = pParent->_pRight;
+		Node* pSubRL = pSubR->_pLeft;
+		int bf = pSubRL->_bf;
+
 		RotateR(pParent->_pRight);
 		RotateL(pParent);
+		if (bf == -1){
+			pSubR->_bf = 1;
+		}
+		else if (bf == 1){
+			pParent->_bf = -1;
+		}
 	}
 
 	void RotateLR(Node* pParent){
+		Node* pSubL = pParent->_pLeft;
+		Node* pSubLR = pSubL->_pRight;
+		int bf = pSubLR->_bf;
 		RotateL(pParent->_pLeft);
 		RotateR(pParent);
+	
+		if (bf == -1){
+			pParent->_bf = 1;
+		}
+		else if (bf == 1){
+			pSubL->_bf = -1;
+		}
 	}
 
 	void _InOrder(Node* pRoot){
@@ -178,7 +198,7 @@ private:
 	}
 
 	bool _IsAVLTree(Node* pRoot){
-		if (_pRoot == nullptr){
+		if (pRoot == nullptr){
 			return true;
 		}
 		size_t leftHeight = _Height(pRoot->_pLeft);
