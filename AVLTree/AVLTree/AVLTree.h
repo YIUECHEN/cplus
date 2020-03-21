@@ -21,7 +21,10 @@ class AVLTree{
 	typedef AVLNode<T> Node;
 public:
 	AVLTree():_pRoot(nullptr){}
-	~AVLTree(){}
+	
+	~AVLTree(){
+		_Destory(_pRoot);
+	}
 
 	bool Insert(const T& data){
 		if (_pRoot == nullptr){
@@ -209,6 +212,15 @@ private:
 			return false;
 		}
 		return _IsAVLTree(pRoot->_pLeft) && _IsAVLTree(pRoot->_pRight);
+	}
+
+	void _Destory(Node* pRoot){
+		if (pRoot){
+			_Destory(pRoot->_pLeft);
+			_Destory(pRoot->_pRight);
+			delete pRoot;
+			pRoot = nullptr;
+		}
 	}
 private:
 	Node* _pRoot;
