@@ -280,7 +280,8 @@ struct RBTreeIterator{
 	typedef RBTreeNode<T> Node;
 	typedef RBTreeIterator<T> Self;
 
-	RBTreeIterator(Node * pNode):_pNode(pNode)
+	RBTreeIterator(Node* pNode)
+		:_pNode(pNode)
 	{}
 
 	T& operator*(){
@@ -289,10 +290,84 @@ struct RBTreeIterator{
 	T* operator->(){
 		return &(operator*());
 	}
+
+	//前置++
 	Self& operator++(){
-	
+		Increament();
+		return *this;
+	}
+	//后置++
+	Self operator++(int){
+		Self temp(*this);
+		Increament();
+		return temp;
+	}
+	//前置--
+	Self& operator--(){
+		Decreament();
+		return *this;
 	}
 
+	//后置--
+	Self operator--(int){
+		Self temp(*this);
+		Decream();
+		return temp;
+	}
+	        
+	bool operator!=(const Self& s)const
+	{
+		return _pNode != s._pNode;
+	}
+	bool operator==(const Self& s)const
+	{
+		return _pNode == s._pNode;
+	}
+
+private:
+	//++
+	void Increament(){
+		if (_pNode->_pRight){
+			_pNode = _pNode->_pRight;
+			while (_pNode->_pLeft){
+				_pNode = _pNode->_pLeft;
+			}
+		}
+		else{
+			Node* pParent = _pNode->_pParent;
+			while (_pNode == pParent->_pRight){
+				_pNode = pParent;
+				pParent = _pNode->_pParent;
+			}
+			if (_pNode->_pRight != pParent){
+				_pNode = pParent;
+			}
+		}
+	}
+
+	//--
+	void Decreament(){
+		if (_pNode->_pParent->_pParent == _pNode&&_pNode->_color == RED){
+		_pNode = _pNode->_pRight;
+		}
+		else if (_pNode->_pLeft){
+			pNode = _pNode->_pLeft; 
+			while (_pNode->_pRight){
+				_pNode = _pNode->_pRight;
+			}
+		}
+		else{
+			Node* pParent = _pNode->_pParent;
+			while (_pNode == pParent->_pLeft){
+				_pNode = _pNode->_pParent;
+				pParent = _pNode->_pParent;
+			}
+			_pNode = pParent;
+		}
+	}
+
+private:
+	Node* _pNode;
 };
 
 
@@ -300,12 +375,22 @@ template<class T>
 class RBTree{
 	typedef RBTreeNode<T> Node;
 public:
+	typedef RBTreeIterator<T> iterator;
+public:
 	RBTree(){
 		_pHead = new Node;
 		_pHead->_pLeft = _pHead;
 		_pHead->_pRight = _pHead;
 
 	}
+	iterator Begin(){
+		return iterator(LeftMost());
+	}
+	
+	iterator End(){
+		return iterator(_pHead);
+	}
+
 	bool Insert(const T& data){
 		Node*& pRoot = GetRoot();
 		if (pRoot == nullptr){
