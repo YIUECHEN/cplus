@@ -23,5 +23,8 @@
     <ClInclude Include="HashTable.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="HashBucket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

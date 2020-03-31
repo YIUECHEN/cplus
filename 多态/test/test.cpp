@@ -11,9 +11,9 @@ public:
 
 class B:public A{
 public:
-	virtual void print(){//派生类可以不用加关键字 但是不规范
-		cout << "B::print()" << endl;
-	}
+	//virtual void print(){//派生类可以不用加关键字 但是不规范
+	//	cout << "B::print()" << endl;
+	//}
 	int b;
 };
 

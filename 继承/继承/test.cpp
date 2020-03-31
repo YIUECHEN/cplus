@@ -193,6 +193,7 @@ using namespace std;
 class A{
 public:
 	int _a;
+	int a2;
 };
 
 //class B : public A{
@@ -219,6 +220,7 @@ int main(){
 	cout << sizeof(D) << endl;
 	d.B::_a = 1;
     d.C::_a = 2;
+	d.a2 = 10;
 
 	d._b = 3;
 	d._c = 4;
