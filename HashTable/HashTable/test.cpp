@@ -25,6 +25,10 @@ void test2(){
 	hb.Insert(8);
 	hb.Insert(13);
 	hb.Insert(33);
+	hb.Insert(5);
+	hb.Insert(66);
+	hb.Insert(2);
+	hb.Insert(17);
 
 	hb.print();
 	cout << hb.Size() << endl;
@@ -41,7 +45,7 @@ void test2(){
 }
 
 int main(){
-	//test1();
+//	test1();	
 	test2();
 	return 0;
 }

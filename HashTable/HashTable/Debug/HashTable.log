@@ -1,21 +1,15 @@
-﻿生成启动时间为 2020/3/31 19:44:09。
+﻿生成启动时间为 2020/4/3 16:09:04。
      1>项目“E:\gitup\cplus\HashTable\HashTable\HashTable.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
-         D:\Visual Studio 2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt test.cpp
-         test.cpp
-     1>e:\gitup\cplus\hashtable\hashtable\hashbucket.h(82): warning C4018: “<”: 有符号/无符号不匹配
-                 e:\gitup\cplus\hashtable\hashtable\hashbucket.h(81): 编译类 模板 成员函数“void HashBucket<int>::Clear(void)”时
-                 e:\gitup\cplus\hashtable\hashtable\test.cpp(38): 参见对正在编译的函数 模板 实例化“void HashBucket<int>::Clear(void)”的引用
-                 e:\gitup\cplus\hashtable\hashtable\test.cpp(20): 参见对正在编译的类 模板 实例化“HashBucket<int>”的引用
-     1>e:\gitup\cplus\hashtable\hashtable\hashtable.h(100): warning C4018: “<”: 有符号/无符号不匹配
-                 e:\gitup\cplus\hashtable\hashtable\hashtable.h(97): 编译类 模板 成员函数“void HashTable<int,true>::CheckCapacity(void)”时
-                 e:\gitup\cplus\hashtable\hashtable\hashtable.h(27): 参见对正在编译的函数 模板 实例化“void HashTable<int,true>::CheckCapacity(void)”的引用
-                 e:\gitup\cplus\hashtable\hashtable\test.cpp(5): 参见对正在编译的类 模板 实例化“HashTable<int,true>”的引用
+         D:\Visual Studio 2013\VC\bin\CL.exe /c /Z7 /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /GF /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt Common.cpp
+     1>cl : 命令行 warning D9007: “/Gm”需要“/Zi 或 /ZI”；选项被忽略
+         Common.cpp
        Link:
-         D:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\gitup\cplus\HashTable\Debug\HashTable.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\gitup\cplus\HashTable\Debug\HashTable.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\gitup\cplus\HashTable\Debug\HashTable.lib" /MACHINE:X86 Debug\test.obj
+         D:\Visual Studio 2013\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"E:\gitup\cplus\HashTable\Debug\HashTable.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"E:\gitup\cplus\HashTable\Debug\HashTable.pdb" /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"E:\gitup\cplus\HashTable\Debug\HashTable.lib" /MACHINE:X86 Debug\Common.obj
+         Debug\test.obj
          HashTable.vcxproj -> E:\gitup\cplus\HashTable\Debug\HashTable.exe
      1>已完成生成项目“E:\gitup\cplus\HashTable\HashTable\HashTable.vcxproj”(Build 个目标)的操作。
 
 生成成功。
 
-已用时间 00:00:04.97
+已用时间 00:00:07.30
