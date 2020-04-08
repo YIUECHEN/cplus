@@ -3,6 +3,29 @@
 #include<algorithm>
 using namespace std;
 
+//#if 0
+int main(){
+	[]{};//最简单的lamber表达式，无意义
+
+	int a = 3, b = 4;
+	auto func1 = [=]{return a + b; };
+	cout << func1() << endl;//7
+	
+	//引用传递的方式可以改变变量的值
+	auto func2 = [&](int c){return b = (++a) + c; };//
+	func2(10);
+	cout << a << " " << b << " " << endl;
+	
+	auto func3 = [=](int c)mutable{return b = a + c; };
+	func3(10);
+	
+	return 0;
+}
+//#endif
+
+
+
+#if 0
 struct Goods{
 	string _name;
 	double _price;
@@ -56,3 +79,26 @@ int main(){
 	sort(v.begin(), v.end(), [](Goods& g1, Goods& g2){return g1._evaluation > g2._evaluation; });
 	return 0;
 }
+#endif
+
+//class Add{
+//public:
+//	Add(int n):_a(n){
+//	}
+//
+//	int operator()(int n){
+//		return _a + n;
+//	}
+//private:
+//	int _a;
+//};
+//
+//int main(){
+//	int n = 2;
+//	Add a1(n);
+//	a1(4);
+//
+//	auto a2 = [=](int m)->int{return n + m; };
+//	a2(4);
+//	return 0;
+//}
